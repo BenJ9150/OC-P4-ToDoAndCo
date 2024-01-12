@@ -18,6 +18,7 @@ final class ToDoListViewModel: ObservableObject {
     /// Publisher for the list of to-do items.
     @Published var toDoItems: [ToDoItem] = [] {
         didSet {
+            // not save if filter is applied to avoid losing items
             if !filterApplied {
                 repository.saveToDoItems(toDoItems)
             }
