@@ -7,7 +7,7 @@ struct ToDoListView: View {
     @State private var isAddingTodo = false
     
     // New state for filter index
-    @State private var filterIndex = 0
+    @State private var filterIndex: FilterState = .all
     
     var body: some View {
         NavigationView {
@@ -38,13 +38,13 @@ struct ToDoListView: View {
 private extension ToDoListView {
     
     struct PickerView: View {
-        @Binding var filterIndex: Int
+        @Binding var filterIndex: FilterState
         
         var body: some View {
             Picker("Filter", selection: $filterIndex) {
-                Text("All").tag(0)
-                Text("Done").tag(1)
-                Text("Not Done").tag(2)
+                Text(FilterState.all.rawValue).tag(FilterState.all)
+                Text(FilterState.done.rawValue).tag(FilterState.done)
+                Text(FilterState.notDone.rawValue).tag(FilterState.notDone)
             }
             .pickerStyle(.segmented)
             .padding()
@@ -103,6 +103,11 @@ private extension ToDoListView {
                 if newTodoTitle.isEmpty {
                     isShowingAlert = true
                 } else {
+                    // Change filter if "Done" state to see new item appear
+                    if filterIndex == .done {
+                        filterIndex = .all
+                    }
+                    // add to viewModel
                     viewModel.add(
                         item: .init(
                             title: newTodoTitle
