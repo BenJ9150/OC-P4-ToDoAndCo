@@ -61,7 +61,7 @@ private extension ToDoListView {
         
         var body: some View {
             List {
-                ForEach(viewModel.toDoItems) { item in
+                ForEach(viewModel.filteredItems) { item in
                     HStack {
                         Button(action: {
                             viewModel.toggleTodoItemCompletion(item)
@@ -79,7 +79,7 @@ private extension ToDoListView {
                 }
                 .onDelete { indices in
                     indices.forEach { index in
-                        let item = viewModel.toDoItems[index]
+                        let item = viewModel.filteredItems[index]
                         viewModel.removeTodoItem(item)
                     }
                 }
