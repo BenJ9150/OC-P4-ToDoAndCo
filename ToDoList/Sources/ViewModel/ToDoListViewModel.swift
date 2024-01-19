@@ -15,8 +15,11 @@ final class ToDoListViewModel: ObservableObject {
     private var currentFilterValue: FilterState = .all
 
     private var toDoItems: [ToDoItem] = [] {
+        // toDoItems is not filtered, contain all items
         didSet {
+            // when is set, we save items and we update the filtered list
             repository.saveToDoItems(toDoItems)
+            // update with current filter value
             updateFilteredList()
         }
     }
@@ -68,6 +71,7 @@ final class ToDoListViewModel: ObservableObject {
     }
 
     private func updateFilteredList() {
+        // use the current filter value to update filtered list if toDoItems has changed
         applyFilter(at: currentFilterValue)
     }
 }

@@ -16,6 +16,7 @@ struct ToDoListView: View {
                 // TODO: - Add a filter selector which will call the viewModel for updating the displayed data
                 PickerView(filterIndex: $filterIndex)
                     .onChange(of: filterIndex) { selectedIndex in
+                        // update filtered list in viewModel
                         viewModel.applyFilter(at: selectedIndex)
                     }
                 // List of tasks
