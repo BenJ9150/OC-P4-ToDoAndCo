@@ -1,5 +1,11 @@
-## Various settings
-.DS_STORE
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Xcode ###
+## User settings
 xcuserdata/
 *.pbxuser
 
