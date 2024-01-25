@@ -1,23 +1,24 @@
 import SwiftUI
 
-enum FilterState: String, CaseIterable, Identifiable {
+// Ben: Enumeration for filter state
+enum FilterState: String {
     case all = "All"
     case done = "Done"
     case notDone = "Not Done"
-    var id: Self { self }
 }
 
 
 final class ToDoListViewModel: ObservableObject {
+
     // MARK: - Private properties
 
     private let repository: ToDoListRepositoryType
     private var currentFilterValue: FilterState = .all
 
+    // Ben: savedItems contain all items, never filtered
     private var savedItems: [ToDoItem] = [] {
-        // toDoItems is not filtered, contain all items
         didSet {
-            // when is set, we save items and we update the filtered list
+            // when is set, save items and update the filtered list
             repository.saveToDoItems(savedItems)
             // update with current filter value
             updateFilteredList()
@@ -59,7 +60,11 @@ final class ToDoListViewModel: ObservableObject {
     /// Apply the filter to update the list.
     func applyFilter(at filterState: FilterState) {
         // TODO: - Implement the logic for filtering
+
+        // save current filter state to update toDoItems when savedItems has changed
         currentFilterValue = filterState
+
+        // update toDoItems list based on filter state
         switch filterState {
         case .all:
             toDoItems = savedItems
@@ -69,8 +74,14 @@ final class ToDoListViewModel: ObservableObject {
             toDoItems = savedItems.filter({ !$0.isDone })
         }
     }
+}
 
-    private func updateFilteredList() {
+// MARK: Private method
+
+private extension ToDoListViewModel {
+
+    /// Ben: update toDoItems list based on current filter state
+    func updateFilteredList() {
         // use the current filter value to update filtered list if toDoItems has changed
         applyFilter(at: currentFilterValue)
     }
