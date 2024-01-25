@@ -34,8 +34,8 @@ final class ToDoListViewModelTests: XCTestCase {
         viewModel.add(item: item)
         
         // Then
-        XCTAssertEqual(viewModel.filteredItems.count, 1)
-        XCTAssertTrue(viewModel.filteredItems[0].title == "Test Task")
+        XCTAssertEqual(viewModel.toDoItems.count, 1)
+        XCTAssertTrue(viewModel.toDoItems[0].title == "Test Task")
     }
     
     func testToggleTodoItemCompletion() {
@@ -47,19 +47,20 @@ final class ToDoListViewModelTests: XCTestCase {
         viewModel.toggleTodoItemCompletion(item)
         
         // Then
-        XCTAssertTrue(viewModel.filteredItems[0].isDone)
+        XCTAssertTrue(viewModel.toDoItems[0].isDone)
     }
     
     func testRemoveTodoItem() {
         // Given
         let item = ToDoItem(title: "Test Task")
-        viewModel.add(item: item)
+        viewModel.add(item: item) // Changed by Ben, old: .toDoItems.append(item)
+        // Cause of change: append to savedItems, and toDoItems is updated on didSet of savedItems
         
         // When
         viewModel.removeTodoItem(item)
         
         // Then
-        XCTAssertTrue(viewModel.filteredItems.isEmpty)
+        XCTAssertTrue(viewModel.toDoItems.isEmpty)
     }
     
     func testFilteredToDoItems() {
@@ -70,18 +71,18 @@ final class ToDoListViewModelTests: XCTestCase {
         viewModel.add(item: item2)
         
         // When
-        viewModel.applyFilter(at: .all)
+        viewModel.applyFilter(at: .all) // Changed by Ben, Int replaced by Enum, old: (at: 0)
         // Then
-        XCTAssertEqual(viewModel.filteredItems.count, 2)
+        XCTAssertEqual(viewModel.toDoItems.count, 2)
         
         // When
-        viewModel.applyFilter(at: .done)
+        viewModel.applyFilter(at: .done) // Changed by Ben, Int replaced by Enum, old: (at: 1)
         // Then
-        XCTAssertEqual(viewModel.filteredItems.count, 1)
+        XCTAssertEqual(viewModel.toDoItems.count, 1)
         
         // When
-        viewModel.applyFilter(at: .notDone)
+        viewModel.applyFilter(at: .notDone) // Changed by Ben, Int replaced by Enum, old: (at: 2)
         // Then
-        XCTAssertEqual(viewModel.filteredItems.count, 1)
+        XCTAssertEqual(viewModel.toDoItems.count, 1)
     }
 }

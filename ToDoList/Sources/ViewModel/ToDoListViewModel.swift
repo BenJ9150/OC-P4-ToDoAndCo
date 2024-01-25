@@ -14,11 +14,11 @@ final class ToDoListViewModel: ObservableObject {
     private let repository: ToDoListRepositoryType
     private var currentFilterValue: FilterState = .all
 
-    private var toDoItems: [ToDoItem] = [] {
+    private var savedItems: [ToDoItem] = [] {
         // toDoItems is not filtered, contain all items
         didSet {
             // when is set, we save items and we update the filtered list
-            repository.saveToDoItems(toDoItems)
+            repository.saveToDoItems(savedItems)
             // update with current filter value
             updateFilteredList()
         }
@@ -28,32 +28,32 @@ final class ToDoListViewModel: ObservableObject {
 
     init(repository: ToDoListRepositoryType) {
         self.repository = repository
-        self.toDoItems = repository.loadToDoItems()
+        self.savedItems = repository.loadToDoItems()
         self.updateFilteredList()
     }
 
     // MARK: - Outputs
 
     /// Publisher for the list of to-do items (filtered or not)
-    @Published private(set) var filteredItems: [ToDoItem] = []
+    @Published private(set) var toDoItems: [ToDoItem] = []
 
     // MARK: - Inputs
 
     // Add a new to-do item with priority and category
     func add(item: ToDoItem) {
-        toDoItems.append(item)
+        savedItems.append(item)
     }
 
     /// Toggles the completion status of a to-do item.
     func toggleTodoItemCompletion(_ item: ToDoItem) {
-        if let index = toDoItems.firstIndex(where: { $0.id == item.id }) {
-            toDoItems[index].isDone.toggle()
+        if let index = savedItems.firstIndex(where: { $0.id == item.id }) {
+            savedItems[index].isDone.toggle()
         }
     }
 
     /// Removes a to-do item from the list.
     func removeTodoItem(_ item: ToDoItem) {
-        toDoItems.removeAll { $0.id == item.id }
+        savedItems.removeAll { $0.id == item.id }
     }
 
     /// Apply the filter to update the list.
@@ -62,11 +62,11 @@ final class ToDoListViewModel: ObservableObject {
         currentFilterValue = filterState
         switch filterState {
         case .all:
-            filteredItems = toDoItems
+            toDoItems = savedItems
         case .done:
-            filteredItems = toDoItems.filter({ $0.isDone })
+            toDoItems = savedItems.filter({ $0.isDone })
         case .notDone:
-            filteredItems = toDoItems.filter({ !$0.isDone })
+            toDoItems = savedItems.filter({ !$0.isDone })
         }
     }
 

@@ -62,7 +62,7 @@ private extension ToDoListView {
         
         var body: some View {
             List {
-                ForEach(viewModel.filteredItems) { item in
+                ForEach(viewModel.toDoItems) { item in
                     HStack {
                         Button(action: {
                             viewModel.toggleTodoItemCompletion(item)
@@ -80,7 +80,7 @@ private extension ToDoListView {
                 }
                 .onDelete { indices in
                     indices.forEach { index in
-                        let item = viewModel.filteredItems[index]
+                        let item = viewModel.toDoItems[index]
                         viewModel.removeTodoItem(item)
                     }
                 }
@@ -104,7 +104,7 @@ private extension ToDoListView {
                 if newTodoTitle.isEmpty {
                     isShowingAlert = true
                 } else {
-                    // Change filter if "Done" state to see new item appear
+                    // Ben: Change filter if "Done" state to see new item appear
                     if filterIndex == .done {
                         filterIndex = .all
                     }
