@@ -54,7 +54,9 @@ final class ToDoListViewModelTests: XCTestCase {
         // Given
         let item = ToDoItem(title: "Test Task")
         viewModel.add(item: item) // Changed by Ben, old: .toDoItems.append(item)
-        // Cause of change: append to savedItems, and toDoItems is updated on didSet of savedItems
+        // Cause of change: toDoItems has now a private set
+        // So I use .add() to append item to savedItems, and toDoItems is updated on didSet of savedItems
+        // Note: If not possible to change test, make the toDoItems set public, and test will also be valid
         
         // When
         viewModel.removeTodoItem(item)
