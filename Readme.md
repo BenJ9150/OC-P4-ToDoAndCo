@@ -1,3 +1,19 @@
+# OpenClassrooms : Ajoutez une nouvelle fonctionnalité en Swift avec la POO
+
+Ce projet fait partie du parcours "Développeur d'application iOS" d'OpenClassrooms (projet 4, partie 1).
+
+L'objectif de ce projet consistait à ajouter un filtrage dans l’application pour permettre aux utilisateurs de trier et de visualiser les tâches en fonction de leur statut : terminées ou non terminées.
+
+
+# Captures d'écran de l'application
+
+<div style="display: flex; justify-content: space-around;">
+  <img src="Screenshots/1_ListAll.png" width="200" />
+  <img src="Screenshots/2_ListDone.png" width="200" />
+  <img src="Screenshots/3_ListNotDone.png" width="200" />
+</div>
+
+
 # SwiftUI To-Do List
 
 <img width="200" alt="Screenshot 2023-09-28 at 11 34 13" src="https://github.com/OpenClassrooms-Student-Center/DA-iOS_P4_exercise-1/assets/10169030/cd0884fa-fcf8-4718-b53a-f65626ea89c2">
